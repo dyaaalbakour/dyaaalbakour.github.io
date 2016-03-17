@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+	 <title>Journey visualiser</title>
+	 <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+	<link href="css/carousel.css" rel="stylesheet">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+	
+	<link href="alert/css/alert.css" rel="stylesheet"/>
+	<link href="alert/themes/default/theme.css" rel="stylesheet"/>
+	<script src="alert/js/alert.js"></script>
+    <style>
+		html, body{
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		}
+
+		#map-canvas {
+		  min-width: 200px;
+		  width: 70%;
+		  min-height: 200px;
+		  height: 100%;
+		  border: 1px solid grey;
+		}
+		
+		
+		#container {
+			width: 100%;
+			margin: auto;
+			height: 600px;
+		}
+		.first {
+			width: 70%;
+			float: left;
+			height: 100%;
+			
+		}
+		.second {
+			width: 29%;
+			float: right;
+			height: 100%;
+			overflow:scroll;
+			height:600px;
+ 			
+		}
+		.clear {
+			clear: both;
+		}
+
+		
+		#annotationform{
+			width: 100%;
+			margin: 5px;
+		}
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script>  
+
+function initialize() {
+  var mapOptions = {
+    zoom: 18,
+    center: new google.maps.LatLng(55.9491533, -4.7651538)
+    
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var flightPlanCoordinates = [
+    new google.maps.LatLng(55.9491533, -4.7651538),
+    new google.maps.LatLng(55.9491301, -4.7650841),
+	new google.maps.LatLng(55.9490619, -4.7650023),
+    new google.maps.LatLng(55.9490163, -4.7649905),
+	new google.maps.LatLng(55.9489895, -4.7649525),
+    new google.maps.LatLng(55.948993, -4.7647857),
+	new google.maps.LatLng(55.9489885, -4.7646932),
+    new google.maps.LatLng(55.9489617, -4.7646019),
+	new google.maps.LatLng(55.9489308, -4.7645601),
+    new google.maps.LatLng(55.94886, -4.7644793)
+  ];
+  var flightPath = new google.maps.Polyline({
+	    path: flightPlanCoordinates,
+	    geodesic: true,
+	    strokeColor: '#FF00FF',
+	    strokeOpacity: 0.5,
+	    strokeWeight: 3
+	  });
+
+  flightPath.setMap(map);
+
+var image = 'icons/start.png';
+var myLatLng =  new google.maps.LatLng(55.9491533, -4.7651538);
+var startmarker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    icon: image,
+	  title: 'Start'
+});
+
+  var contentString = '<div><b>Start</b> <br/>' + 
+						'<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000346_21I7T4_20150523_135716E.JPG" width="300"/></div>';
+
+var infowindow = new google.maps.InfoWindow({
+    content: contentString
+});
+
+
+google.maps.event.addListener(startmarker, 'click', function() {
+  infowindow.open(map,startmarker);
+});
+
+var image2 = 'icons/download.jpg';
+var myLatLng2 =  new google.maps.LatLng(55.94886, -4.7644793);
+var endmarker = new google.maps.Marker({
+    position: myLatLng2,
+    map: map,
+    icon: image2
+});
+
+var contentString2 = '<div><b>End</b> <br/> <img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000363_21I7T4_20150523_135901E.JPG" width="300"/></div>';
+
+var infowindow2 = new google.maps.InfoWindow({
+    content: contentString2
+});
+
+google.maps.event.addListener(endmarker, 'click', function() {
+  infowindow2.open(map,endmarker);
+});
+
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+function submitRequest()
+{
+	
+		
+	
+	var annotationObject= {"participantId":"1051601", "journeyId":"16", "segmentId":"1"}
+	
+	if( document.getElementById("activitytext").value=="")  return false;
+
+	annotationObject["activity"]  = document.getElementById("activitytext").value;
+	annotationObject["annotator"]  = document.getElementById("annotator").value;
+
+	var selectedval;
+	
+	
+	
+	var tmds = document.getElementsByName("tmd");
+	
+	
+	for(var i=0;i< tmds.length;i++){	
+		
+		if(tmds[i].checked){
+			selectedval = tmds[i].value;
+		}
+	}
+	annotationObject["tmd"] = selectedval;
+	
+		/*$("activitytext").val(),
+	"tmd": $("tmd").val(),
+	"annotator":$("annotator").val()*/
+	
+	
+	var requestObject ={ "request": annotationObject}
+	
+	var promise = jQuery.ajax(
+	{
+		type: 'POST', 
+		url: 'submitAnnotations.action', 
+		data: JSON.stringify(requestObject),
+		dataType: 'json',
+		async: false ,
+		contentType: 'application/json; charset=utf-8'
+	});
+			
+	promise.done(function(data, textStatus, jqXHR) 
+	{
+		
+		alert("Submitted Successfully");
+		window.location = "00002.html";
+		
+	});
+	promise.fail(function(jqXHR, textStatus, errorThrown) {
+	});
+	return false;
+	
+	
+}
+    </script>
+  </head>
+<body>
+   <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Journey Labelling</a>
+            </div>            
+          </div>
+        </nav>
+	</div>
+	</div>
+	<div class="container theme-showcase" role="main">
+	
+        
+	<!--for-->	
+	<div class= "page-header">
+	</div>
+	<div class="page-header">
+        <h1>TASK ID: # 00001</h1>
+      </div>
+      <div class="row">
+        <div class="col">
+          
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">GPS Trace for user: 1051601 - Journey 16 - segment 1 </h3>
+            </div>
+            <div class="panel-body">
+			<h3>
+			Examine the GPS trace below:
+			</h3>
+			
+				<!-- -->
+				<div>
+					<p>
+					<br/>
+					<b>Time</b>: 2015/05/23 12:58:08 <br/> 
+					<b>Average Speed</b>: 3.84 <i>km/h</i> <br/>
+					<b>Max Speed</b>: 7.07 <i>km/h</i> <br/>
+						
+					</p>
+					<div id="container"> 
+						<div id="map-canvas" class="first"></div>
+					
+						<div class="second">
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000346_21I7T4_20150523_135716E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000355_21I7T4_20150523_135812E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000356_21I7T4_20150523_135817E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000357_21I7T4_20150523_135824E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000358_21I7T4_20150523_135830E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000359_21I7T4_20150523_135837E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000360_21I7T4_20150523_135843E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000361_21I7T4_20150523_135849E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000362_21I7T4_20150523_135855E.JPG" width="300"/>
+						<img src="http://www.dcs.gla.ac.uk/~dyaa/maps/images/B00000363_21I7T4_20150523_135901E.JPG" width="300"/>
+						
+						</div>
+						
+					</div> 
+					<div id="annotationform">
+						<p>
+						<br/>
+						<form name="myform">
+						<fieldset>
+
+						<!-- Form Name -->
+						<legend>Segment Annotator</legend>
+
+						<!-- Multiple Radios -->
+						<div >
+						  <label for="tmd">Transportation Mode</label>
+						  <div >
+							<label  for="tmd-0">
+							  <input type="radio" name="tmd" id="tmd-0" value="Stationary" checked="checked">
+							  Stationary
+							</label><br/>
+							<label  for="tmd-1">
+							  <input type="radio" name="tmd" id="tmd-1" value="Walking">
+							  Walking
+							</label><br/>
+							<label  for="tmd-2">
+							  <input type="radio" name="tmd" id="tmd-2" value="Car">
+							  Car
+							</label><br/>
+							<label for="tmd-3">
+							  <input type="radio" name="tmd" id="tmd-3" value="Bus">
+							  Bus
+							</label><br/>
+							<label  for="tmd-4">
+							  <input type="radio" name="tmd" id="tmd-4" value="Train">
+							  Train
+							</label><br/>
+							<label  for="tmd-5">
+							  <input type="radio" name="tmd" id="tmd-5" value="Ferry">
+							  Ferry
+							</label><br/>
+							<label  for="tmd-6">
+							  <input type="radio" name="tmd" id="tmd-6" value="Cycle">
+							  Cycling
+							</label>
+						  </div>
+						</div>
+
+						<!-- Text input-->
+						<div ><br/>
+						  <label  for="activitytext">Activity&nbsp;&nbsp;  </label>
+						  
+							<input id="activitytext" name="activitytext" type="textarea" placeholder="e.g. shopping"  required="">
+							<p >describe in keywords the activity during this segment</p>
+						  
+						</div>
+						
+						<!-- Select Basic -->
+						<div >
+						  <label  for="annotator">Annotator &nbsp;&nbsp;</label>
+						  
+							<select id="annotator" name="annotator" >
+							  <option>Bertille</option>
+							  <option>Dyaa</option>
+							  <option>Michael</option>
+							  <option>Other</option>
+							</select>
+						  
+						</div>
+
+						<!-- Button -->
+						<div >
+						  <label  for="singlebutton"></label>
+						  <div >
+							<button id="singlebutton" name="singlebutton" class="btn btn-primary" onclick="return submitRequest()">Submit!</button>
+						  </div>
+						</div>
+
+						</fieldset>
+						</form>
+
+						</p>
+					</div>
+				
+				
+				
+				</div>
+				
+            </div>
+			
+			<div>
+			 <ul class="pager">
+			<li class="previous disabled"> <a href="00000.html">Previous</a></li>
+			<li class="next"><a href="00002.html">Next</a></li>
+  	`		  </ul>
+			</div>
+			
+          </div>
+		  
+		  
+		  
+        </div><!-- /.col-sm-4 -->
+	
+	
+	
+		</div>
+		
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2015 terrier.org. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+	</div>
+	
+    
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

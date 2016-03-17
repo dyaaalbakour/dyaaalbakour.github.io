@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Dr. Dyaa Albakour -- University of Glasgow</title>
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18790004-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+<script sync src="https://platform.twitter.com/widgets.js"></script>
+<script type="text/javascript">
+window.onload = (function(){
+			  twttr.widgets.createTweet(
+  '20',
+  document.getElementbyId('container'),
+  {
+    theme: 'dark'
+  }
+);
+}
+);
+			</script>
+			
+			<style>
+ 
+  #tweet {
+    width: 400px !important;
+  }
+ 
+  #tweet iframe {
+    border: none !important;
+    box-shadow: none !important;
+  }
+ 
+</style>
+ 
+
+ <!--
+<script sync src="https://platform.twitter.com/widgets.js"></script>
+ -->
+<script>
+ 
+  window.onload = (function(){
+ 
+ 
+	var x = document.getElementsByClassName("tweet");
+	var i;
+	for (i = 0; i < x.length; i++) {
+	
+		
+		var id = x[i].getAttribute("tweetID");
+	
+		twttr.widgets.createTweet(
+		id, x[i], 
+      {
+        conversation : 'none',    // or all
+        cards        : 'hidden',  // or visible 
+        linkColor    : '#cc0000', // default is blue
+        theme        : 'light'    // or dark
+      })
+		.then (function (el) {
+		  el.contentDocument.querySelector(".footer").style.display = "none";
+		});
+		x[i].style.backgroundColor = "red";
+	}
+ 
+    
+ 
+    
+ 
+  });
+ window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+</head>
+<body>
+<div class="pagewidth">
+
+	<div class="header">
+		<!-- TITLE -->
+		
+		<h1><a href="#">Dyaa Albakour</a></h1>
+		<h2>Post-doctorate Researcher</h2>
+		<!-- END TITLE -->
+	</div>
+
+
+	<div class="nav">
+		<ul>	
+			<!-- MENU -->
+			<li ><a href="index.html">Home</a></li>
+			<li ><a href="bio.html">Bio</a></li>
+			<li ><a href="softwaredevelopment.html">Software Development</a></li>
+			<li><a href="publications.html">Publications</a></li>
+			<li class="selected"><a href="news.html">News</a></li>
+			<!-- END MENU -->
+		</ul>
+	</div>
+
+	<div class="page-wrap">
+		<div class="content">
+			<!-- CONTENT -->		
+			<div class="tweet" tweetID="515490786800963584"></div>
+			<div class="tweet" tweetID="20"></div>
+			<div id="container"></div>
+			something
+			
+			
+		</div>
+		<div class="clear"></div>		
+	</div>
+</div>
+<div class="footer">
+	<p>
+	<a href="http://validator.w3.org/check/referer" title="valid XHTML">XHTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer" title="valid CSS">CSS</a> &nbsp;&nbsp; &copy; Dyaa Albakour Private Web Page. </p> 
+</div>	
+<div style="text-align: center; font-size: 0.75em;">Design downloaded from <a href="http://www.freewebtemplates.com/">free website templates</a>.</div>
+
+
+
+
+</body>
+
+</html>
