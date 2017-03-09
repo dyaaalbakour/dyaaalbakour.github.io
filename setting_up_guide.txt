@@ -39,11 +39,6 @@ AWS CLI
   brew install awscli
   aws configure
 
-AWS Accounts:
-  production 655100936961
-  rnd 261000137328
-  https://655100936961.signin.aws.amazon.com/console
-
 VPN
   to install OpenVPN configured for signal go to https://vpn.signal.uk.com:943
   You need an account set up there for you
