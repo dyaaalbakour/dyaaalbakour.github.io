@@ -1,0 +1,68 @@
+Onboarding:
+
+Brew
+  To install:
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+ZSH
+  First install it:
+    brew install zsh
+  Then make it your default:
+    Go to system preference.
+    Select Users and Groups.
+    Right click your user account and select advance options(In order to make changes you have to unlock the panel by clicking lock icon in bottom)
+    Change the login shell to /bin/zsh.
+  Customize it by installing oh-my-zsh:
+    curl -L http://install.ohmyz.sh | sh
+    edit ~/.zshrc and set your favourite colour theme ZSH_THEME="af-magic"
+
+Git
+  To store credentials, INSTALL osxkeychain
+    curl http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain -o git-credential-osxkeychain
+    sudo chmod u+x /usr/local/bin/git-credential-osxkeychain
+    git config --global credential.helper osxkeychain
+
+  Now when you clone a repo your credentials will be stored. remember with two-way auth, you need to provide
+  the access token as a password
+
+Java and lein
+  Install JDK:
+    brew cask install java
+  Install lein
+    brew install wget
+    wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+    sudo cp ./lein /bin
+    sudo chmod a+x /bin/lein
+    ./lein
+
+AWS CLI
+  brew install awscli
+  aws configure
+
+AWS Accounts:
+  production 655100936961
+  rnd 261000137328
+  https://655100936961.signin.aws.amazon.com/console
+
+VPN
+  to install OpenVPN configured for signal go to https://vpn.signal.uk.com:943
+  You need an account set up there for you
+
+ATOM
+  brew install Caskroom/cask/atom
+
+Slack
+  search in app store
+
+FileZilla
+  brew install Caskroom/cask/filezilla
+
+Conda
+  wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+  bash Miniconda3-latest-MacOSX-x86_64.sh
+
+Conda virtual environment for signalml/notebooks
+  conda create --name signal
+  source activate signal
+  pip install --extra-index-url https://pypi.fury.io/GQwu22uVoREWhYQBpChi/smoussa signalml --upgrade
+  pip install jupyter
