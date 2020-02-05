@@ -17,13 +17,16 @@ ZSH
     edit ~/.zshrc and set your favourite colour theme ZSH_THEME="af-magic"
 
 Git
-  To store credentials, INSTALL osxkeychain
-    curl http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain -o git-credential-osxkeychain
-    sudo chmod u+x /usr/local/bin/git-credential-osxkeychain
-    git config --global credential.helper osxkeychain
+  generate SSH key
+    ssh-keygen -t rsa -b 4096 -C "your-email"
+  add the key to your github account
+    First copy it to your clipboard
+      pbcopy < ~/.ssh/id_rsa.pub 
+    then go tp git-> settings-> ssh and gpg keys -> new ssh key -> paste into the key field 
+  configure git 
+    git config --global user.email "your email"
+    git config --global user.name "firstname lastname"
 
-  Now when you clone a repo your credentials will be stored. remember with two-way auth, you need to provide
-  the access token as a password
 
 Java and lein
   Install JDK:
@@ -38,6 +41,10 @@ Java and lein
 AWS CLI
   brew install awscli
   aws configure
+
+
+Signal CLI
+  https://github.com/signal-ai/signal-cli
 
 VPN
   to install OpenVPN configured for signal go to https://vpn.signal.uk.com:943
